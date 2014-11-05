@@ -1,3 +1,4 @@
+#!/user/bin/python
 import csv
 import os
 
@@ -10,7 +11,8 @@ def generateHtml (directory ,title, content):
     fh.writelines(lines_of_text)
     fh.close()
     return
-
+# older version don't work with "with"
+# fix it later
 with open('structure.csv', 'rU') as f:
     reader = csv.reader(f)
     fh = open('index.html', 'w')
@@ -25,7 +27,8 @@ with open('structure.csv', 'rU') as f:
 with open('structure.csv', 'rU') as f:
     reader = csv.reader(f)
     for row in reader:
-        os.mkdir(row[0])
+        if not os.path.exists(row[0]):
+            os.mkdir(row[0])
         generateHtml(row[0], row[1], row[2])
         
     
